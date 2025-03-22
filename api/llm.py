@@ -43,6 +43,6 @@ if __name__ == '__main__':
 
     data['messages'].append({
         "role": "user",
-        "content": "utterance"
+        "content": "Яка площа України?"
     })
-    infer(data)
+    print(infer(data))
