@@ -10,7 +10,7 @@ fi
 
 # Install dependencies
 pip install --upgrade pip
-pip install flask gunicorn streaming-stt-nemo gtts python-dotenv
+pip install flask gunicorn streaming-stt-nemo gtts python-dotenv elvenlabs
 
 # Ask for sudo password only when required
 echo "Requesting root privileges for systemd setup..."
