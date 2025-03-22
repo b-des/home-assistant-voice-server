@@ -2,11 +2,12 @@ import json
 import os
 import re
 import time
-
+from dotenv import load_dotenv
 import logger
 
 import requests
 
+load_dotenv()
 log = logger.get(__name__)
 
 headers = {
