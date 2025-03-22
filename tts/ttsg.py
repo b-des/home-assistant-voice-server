@@ -1,7 +1,6 @@
 from pydub import AudioSegment
 from pydub.effects import speedup
 from gtts import gTTS
-import playsound
 import time
 
 
@@ -13,10 +12,6 @@ def speak(text):
     sound.export("output.wav", format="wav")
     # p = Process(name="playsound", target=play)
     # p.start()
-
-
-def play():
-    playsound.playsound('test.wav')
 
 
 if __name__ == '__main__':

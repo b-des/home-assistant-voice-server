@@ -16,7 +16,7 @@ fi
 
 # Install dependencies
 pip install --upgrade pip
-pip install flask gunicorn streaming-stt-nemo
+pip install flask gunicorn streaming-stt-nemo gtts
 
 # Copy systemd service file
 cp assistant.service /etc/systemd/system/
