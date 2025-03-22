@@ -5,7 +5,7 @@ import logger
 import stt
 import tts
 from api import ha, llm
-from nlp import post_processing
+from llm import post_processing
 
 log = logger.get(__name__)
 
