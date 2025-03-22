@@ -4,17 +4,15 @@ import time
 
 import requests
 
-from processor import prepare_prompt
-
 logger = logging.getLogger(__name__)
 headers = {
     'Authorization': f'Bearer {os.getenv("OPEN_AI_API_KEY")}'
 }
 
 
-def infer(data):
+def infer(prompt):
     start = time.time()
-    response = requests.post('https://api.openai.com/v1/chat/completions', json=data, headers=headers)
+    response = requests.post('https://api.openai.com/v1/chat/completions', json=prompt, headers=headers)
     end = time.time()
     logger.info(f"LLM inference finished in {end - start} seconds")
     logger.info(f'Raw LLM response: {response.json()}')
@@ -30,5 +28,19 @@ def infer(data):
 
 
 if __name__ == '__main__':
-    # infer('скільки секунд залишилось до пятнадцятої години')
-    infer(prepare_prompt('вимкни світло на кухні'))
+    data = {
+        # "model": "command-r",
+        "model": "gpt-4o-mini",
+        "messages": [
+            {
+                "role": "system",
+                "content": f''
+            }
+        ]
+    }
+
+    data['messages'].append({
+        "role": "user",
+        "content": "utterance"
+    })
+    infer(data)
