@@ -1,7 +1,8 @@
+import io
 import time
-from typing import Iterator
 
 from elevenlabs.client import ElevenLabs
+from pydub import AudioSegment
 
 import logger
 from tts.config import ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID
@@ -18,15 +19,24 @@ def speak(text):
         text=text,
         model_id="eleven_turbo_v2_5"
     )
-    save_iterator_to_mp3(response)
+    save(response)
     end = time.time()
     log.info(f'Synthesised in {end - start} seconds')
 
 
-def save_iterator_to_mp3(iterator: Iterator[bytes]) -> None:
-    with open("output.wav", 'wb') as file:
-        for chunk in iterator:
-            file.write(chunk)
+def save(iterator):
+    # Save ElevenLabs MP3 response to a file-like object
+    mp3_bytes_io = io.BytesIO()
+    for chunk in iterator:  # response is an iterator[bytes]
+        mp3_bytes_io.write(chunk)
+    # Seek to the beginning so we can read it
+    mp3_bytes_io.seek(0)
+    # Load MP3 using pydub
+    audio = AudioSegment.from_file(mp3_bytes_io, format="mp3")
+    # Convert to Signed 16-bit PCM, 16kHz, Mono
+    audio = audio.set_frame_rate(16000).set_sample_width(2).set_channels(1)
+    # Export the corrected WAV file
+    audio.export("output.wav", format="wav")
 
 
 if __name__ == "__main__":
