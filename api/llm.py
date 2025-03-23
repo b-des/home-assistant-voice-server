@@ -25,7 +25,7 @@ def infer(prompt):
     # get parsed answer and return to TTS
     speech = parts[0].replace('\n', '')
     payload = parts[1] if len(parts) > 1 else ''
-    return speech, payload
+    return speech, payload.replace('#', '')
 
 
 if __name__ == '__main__':

@@ -2,6 +2,7 @@ import io
 import time
 
 from elevenlabs.client import ElevenLabs
+from elevenlabs import play
 from pydub import AudioSegment
 
 import logger
@@ -17,7 +18,13 @@ def speak(text):
         voice_id=ELEVENLABS_VOICE_ID,
         output_format="mp3_44100_128",
         text=text,
-        model_id="eleven_turbo_v2_5"
+        model_id="eleven_turbo_v2_5",
+        voice_settings={
+            'speed': 1,
+            'stability': 0.9,
+            'similarity_boost': 0.9
+        }
+
     )
     save(response)
     end = time.time()
