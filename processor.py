@@ -17,12 +17,11 @@ def process():
         log.info('No speech detected in the request')
         pass
     prompt = prepare_prompt(utterance)
-    speech, ha_payload = llm.infer(prompt)
+    speech, ha_payload, raw = llm.infer(prompt)
     # parse json and call HA service
     ha.call_service(ha_payload)
     # save question and answer to history DB
-    to_save = speech + ('##' + ha_payload if len(ha_payload) else ha_payload)
-    db.save(utterance, to_save)
+    db.save(utterance, raw)
     response = post_processing.process(speech)
     tts_engine.speak(response)
     log.info(f'Total time processing {time.time() - start_total} seconds')
