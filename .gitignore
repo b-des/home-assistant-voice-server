@@ -175,3 +175,5 @@ cython_debug/
 
 logs.*
 conversation.db
+input.wav
+output.wav

@@ -16,7 +16,7 @@ def entry():
 @app.route('/', methods=['GET', 'POST'])
 def process_assistant_request():
     audio = request.files['audio']
-    audio.save(os.path.join('audio.wav'))
+    audio.save(os.path.join('input.wav'))
     process()
     return send_file(
         'output.wav',

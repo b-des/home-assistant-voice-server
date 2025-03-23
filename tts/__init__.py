@@ -1,13 +1,16 @@
-import time
+import importlib
 
 import logger
-import tts.ttsg as tts
 
 log = logger.get(__name__)
 
 
-def process(phrase):
-    start = time.time()
-    tts.speak(phrase)
-    end = time.time()
-    log.info(f'Synthesised in {end - start} seconds')
+class TTSEngineFactory:
+    @staticmethod
+    def get_tts_engine(name):
+        try:
+            module = importlib.import_module(f'tts.{name}')
+            log.info(f'Using TTS engine: {name}')
+            return module
+        except ModuleNotFoundError:
+            raise ImportError(f'TTS Engine "{name}" not found')

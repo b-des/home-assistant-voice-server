@@ -1,21 +1,20 @@
 import json
-import os
 import re
 import time
-import logger
+
 import requests
-from dotenv import load_dotenv
 
+import logger
+from config import HOME_ASSISTANT_URL, HOME_ASSISTANT_NODE_RED_URL, HOME_ASSISTANT_KEY
 
-load_dotenv()
 log = logger.get(__name__)
 
 headers = {
-    'Authorization': f'Bearer {os.getenv("HOME_ASSISTANT_KEY")}'
+    'Authorization': f'Bearer {HOME_ASSISTANT_KEY}'
 }
 
-ha_server = os.getenv("HOME_ASSISTANT_URL")
-node_red_server = os.getenv("HOME_ASSISTANT_NODE_RED_URL")
+ha_server = HOME_ASSISTANT_URL
+node_red_server = HOME_ASSISTANT_NODE_RED_URL
 
 
 def call_service_immediately(data):

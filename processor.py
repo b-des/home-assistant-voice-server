@@ -2,9 +2,8 @@ import time
 
 import db
 import logger
-import stt
-import tts
 from api import ha, llm
+from config import tts_engine, stt_engine
 from llm import post_processing
 
 log = logger.get(__name__)
@@ -13,7 +12,7 @@ log = logger.get(__name__)
 def process():
     log.info('Start processing input request')
     start_total = time.time()
-    utterance = stt.process('audio.wav')
+    utterance = stt_engine.transcribe('input.wav')
     if not len(utterance):
         log.info('No speech detected in the request')
         pass
@@ -24,7 +23,7 @@ def process():
     # save question and answer to history DB
     db.save(utterance, f'{speech}##{ha_payload}')
     response = post_processing.process(speech)
-    tts.process(response)
+    tts_engine.speak(response)
     log.info(f'Total time processing {time.time() - start_total} seconds')
 
 

@@ -1,14 +1,13 @@
 import logging
-import os
 import time
-from dotenv import load_dotenv
 
 import requests
 
-load_dotenv()
+from config import OPEN_AI_API_KEY
+
 logger = logging.getLogger(__name__)
 headers = {
-    'Authorization': f'Bearer {os.getenv("OPEN_AI_API_KEY")}'
+    'Authorization': f'Bearer {OPEN_AI_API_KEY}'
 }
 
 

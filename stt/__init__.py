@@ -1,14 +1,16 @@
-import time
+import importlib
 
 import logger
-import stt.nemostt
 
 log = logger.get(__name__)
 
 
-def process(file):
-    start = time.time()
-    result = nemostt.transcribe(file)
-    end = time.time()
-    log.info(f'Transcribed in {end - start} seconds, result: {result}')
-    return result
+class STTEngineFactory:
+    @staticmethod
+    def get_stt_engine(name):
+        try:
+            module = importlib.import_module(f'stt.{name}')
+            log.info(f'Using STT engine: {name}')
+            return module
+        except ModuleNotFoundError:
+            raise ImportError(f'TTS Engine "{name}" not found')
