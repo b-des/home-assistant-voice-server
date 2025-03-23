@@ -1,6 +1,10 @@
-from streaming_stt_nemo import Model, available_languages
+import os
 
-model = Model('uk')
+from dotenv import load_dotenv
+from streaming_stt_nemo import Model
+
+load_dotenv()
+model = Model(os.getenv("TTS_STT_LANGUAGE"))
 
 
 def transcribe(audio):

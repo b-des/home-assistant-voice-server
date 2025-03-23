@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 
 from elevenlabs import play
 from elevenlabs.client import ElevenLabs
+from pydub import AudioSegment
 
 load_dotenv()
 
@@ -25,18 +26,20 @@ def save_iterator_to_mp3(iterator: Iterator[bytes]) -> None:
 
 
 def speak(text):
+    print("START")
     response = client.text_to_speech.convert(
         voice_id=os.getenv("ELEVENLABS_VOICE_ID"),
         output_format="mp3_44100_128",
         text=text,
         model_id="eleven_turbo_v2_5"
     )
+    print("FINISH")
     play(response)
-    # save_iterator_to_mp3(response)
-    # sound = AudioSegment.from_mp3("output.mp3")
+    save_iterator_to_mp3(response)
+    sound = AudioSegment.from_mp3("output.mp3")
     # # sound = speedup(sound, 1.1)
     # sound = sound + 3
-    # sound.export("output.wav", format="wav")
+    sound.export("output.wav", format="wav")
 
 
 if __name__ == "__main__":

@@ -1,11 +1,16 @@
+import os
+import time
+
+from dotenv import load_dotenv
+from gtts import gTTS
 from pydub import AudioSegment
 from pydub.effects import speedup
-from gtts import gTTS
-import time
+
+load_dotenv()
 
 
 def speak(text):
-    tts = gTTS(text=text, lang='uk', slow=False)
+    tts = gTTS(text=text, lang=os.getenv("TTS_STT_LANGUAGE"), slow=False)
     tts.save("output.mp3")
     sound = AudioSegment.from_mp3("output.mp3")
     sound = speedup(sound, 1.1)
@@ -16,6 +21,6 @@ def speak(text):
 
 if __name__ == '__main__':
     start = time.time()
-    speak("")
+    speak("Чим можу допомогти?")
     end = time.time()
     print(f"===Synthesised in {end - start} seconds===")

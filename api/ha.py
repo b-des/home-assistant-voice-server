@@ -2,10 +2,10 @@ import json
 import os
 import re
 import time
-from dotenv import load_dotenv
 import logger
-
 import requests
+from dotenv import load_dotenv
+
 
 load_dotenv()
 log = logger.get(__name__)
