@@ -2,11 +2,10 @@ import io
 import time
 
 from elevenlabs.client import ElevenLabs
-from elevenlabs import play
 from pydub import AudioSegment
 
 import logger
-from tts.config import ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID
+from tts.config import ELEVENLABS_API_KEY, ELEVENLABS_VOICE_ID, ELEVENLABS_VOLUME_GAIN
 
 client = ElevenLabs(api_key=ELEVENLABS_API_KEY)
 log = logger.get(__name__)
@@ -21,10 +20,9 @@ def speak(text):
         model_id="eleven_turbo_v2_5",
         voice_settings={
             'speed': 1,
-            'stability': 0.9,
-            'similarity_boost': 0.9
+            # 'stability': 0.9,
+            # 'similarity_boost': 0.9
         }
-
     )
     save(response)
     end = time.time()
@@ -41,7 +39,7 @@ def save(iterator):
     # Load MP3 using pydub
     audio = AudioSegment.from_file(mp3_bytes_io, format="mp3")
     # Convert to Signed 16-bit PCM, 16kHz, Mono
-    audio = audio.set_frame_rate(16000).set_sample_width(2).set_channels(1)
+    audio = audio.set_frame_rate(16000).set_sample_width(2).apply_gain(ELEVENLABS_VOLUME_GAIN).set_channels(1)
     # Export the corrected WAV file
     audio.export("output.wav", format="wav")
 
